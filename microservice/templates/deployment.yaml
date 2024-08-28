@@ -1,24 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  {{ .Release.Name }}-deployment
+  name: {{ .Release.Name }}-deployment
   labels:
-    app: backend-ms 
+    app: ms
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: backend-ms
+      app: ms
   template:
     metadata:
       labels:
-        name:  backend-ms
+        app: ms
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image:  "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
-        - name: http
-          containerPort: {{ .Values.image.port }}
-          protocol: TCP
+        - containerPort: {{ .Values.image.port }}
