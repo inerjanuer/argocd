@@ -2,6 +2,6 @@ replicaCount: 1
 
 image: 
   repository: 1026281452/testhelm
-  tag: v1
+  tag: latest
   pullPolicy: IfNotPresent
   port: 8080 
