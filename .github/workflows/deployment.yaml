@@ -13,6 +13,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       - name: Build project
-        run: cd tutorial-helm
+        run: ls -la
       - name: Build and test
         run: mvn clean install
