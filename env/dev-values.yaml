@@ -1,7 +1,0 @@
-replicaCount: 1
-
-image: 
-  repository: 1026281452/bloqueo
-  tag: v1
-  pullPolicy: IfNotPresent
-  port: 8080 
