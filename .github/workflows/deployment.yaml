@@ -15,3 +15,10 @@ jobs:
       
       - name: Build compile project
         run: cd tutotial-helm; mvn clean install
+
+      - name: Build the docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./tutotial-helm
+          dockerfile: Dockerfile 
+          push: false
