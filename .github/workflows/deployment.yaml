@@ -13,8 +13,5 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       
-      - name: Build project
-        run: cd tutotial-helm 
-      
-      - name: compile project
-        run: mvn clean install
+      - name: Build compile project
+        run: cd tutotial-helm; mvn clean install
