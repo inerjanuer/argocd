@@ -9,7 +9,7 @@ public class RestController {
 
     @GetMapping("test")
     public String helm() {
-        return "Hello World!";
+        return "Hello World! Argo cd";
     }
 
 }
