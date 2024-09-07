@@ -16,6 +16,23 @@ jobs:
       - name: Build compile project
         run: cd tutotial-helm; mvn clean install
 
+      - name: get leader git username
+        id: get_leader_username
+        run: |
+          cd java_app
+          echo "leader_username=$(git log -n 1 --pretty=format:%an)" >> "$GITHUB_OUTPUT"
+
+      - name: get leader git email
+        id: get_leader_email
+        run: |
+          cd java_app
+          echo "leader_email=$(git log -n 1 --pretty=format:%ae)" >> "$GITHUB_OUTPUT"
+
+      - name: Set local git creddentials
+        run: |
+          git config --global user.email "${{ steps.get_leader_email.outputs.leader_email }}"
+          git config --global user.name "${{ steps.get_leader_username.outputs.leader_username }}"
+
       - name: 'Checkout Repo'
         uses: actions/checkout@v4 
         with:
