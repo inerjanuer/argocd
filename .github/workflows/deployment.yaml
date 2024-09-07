@@ -47,6 +47,7 @@ jobs:
             patch=$((patch +1))
             last_tag="$major.$minor.$patch"
             echo "new_version_tag=$last_tag" >> "$GITHUB_OUTPUT"
+            break
           done
 
       - name: created_tag
