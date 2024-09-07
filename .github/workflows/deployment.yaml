@@ -69,6 +69,7 @@ jobs:
 
       - name: created_tag
         run: |
+          cd java_app
           git tag v${{steps.increment_version.outputs.new_version_tag}}
 
 
