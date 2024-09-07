@@ -27,8 +27,8 @@ jobs:
         run: |
           cd tutotial-helm/java_app
           git fetch --tags
-          latest_tag=$(git describe --tags --abbrev=0 main || echo "v0.0.0.")
-          echo "current_tag=$latest_tag" >> $GITHUB_OUTPUT
+          latest_tag=$(git describe --tags --abbrev=0 main || echo "v0.0.0")
+          echo "current_tag=$latest_tag" >> "$GITHUB_OUTPUT"
 
 
       - name: Build the docker image
