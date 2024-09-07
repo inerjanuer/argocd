@@ -52,7 +52,7 @@ jobs:
 
       - name: created_tag
         run: |
-          git tag v"${{steps.increment_version.outputs.new_version_tag}}"
+          git tag v${{steps.increment_version.outputs.new_version_tag}}
 
 
       - name: Build the docker image
@@ -61,7 +61,7 @@ jobs:
           context: ./tutotial-helm
           dockerfile: Dockerfile 
           push: false
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/testhelm:"${{steps.increment_version.outputs.new_version_tag}}"
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/testhelm:v${{steps.increment_version.outputs.new_version_tag}}
 
       - name: login to docker hub
         uses: docker/login-action@v1
@@ -75,7 +75,7 @@ jobs:
           context: ./tutotial-helm
           dockerfile: Dockerfile 
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/testhelm:"${{steps.increment_version.outputs.new_version_tag}}"
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/testhelm:v${{steps.increment_version.outputs.new_version_tag}}
       
       - name: Push generated tag
         run: |
