@@ -30,13 +30,37 @@ jobs:
           latest_tag=$(git describe --tags --abbrev=0 main || echo "v0.0.0")
           echo "current_tag=$latest_tag" >> "$GITHUB_OUTPUT"
 
+      - name: increment version
+        id: increment_version
+        run: |
+          cd java_app
+          last_tag="${{steps.get_tag.outputs.current_tag}}"
+          while true; do
+            if [[ $last_tag == *v* ]]; then
+                major=$(echo $last_tag | cut -c2- | cut -d '.' -f1)
+            else
+                major=$(echo $last_tag | cut -d '.' -f1)
+            fi
+            minor=$(echo $last_tag | cut -d '.' -f2)
+            patch=$(echo $last_tag | cut -d '.' -f3)
+
+            patch=$((patch +1))
+            last_tag="$major.$minor.$patch"
+            echo "new_version_tag=$last_tag" >> "$GITHUB_OUTPUT"
+          done
+
+      - name: created_tag
+        run: |
+          git tag v"${{steps.increment_version.outputs.new_version_tag}}"
+
+
       - name: Build the docker image
         uses: docker/build-push-action@v4
         with:
           context: ./tutotial-helm
           dockerfile: Dockerfile 
           push: false
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/testhelm:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/testhelm:"${{steps.increment_version.outputs.new_version_tag}}"
 
       - name: login to docker hub
         uses: docker/login-action@v1
@@ -50,4 +74,9 @@ jobs:
           context: ./tutotial-helm
           dockerfile: Dockerfile 
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/testhelm:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/testhelm:"${{steps.increment_version.outputs.new_version_tag}}"
+      
+      - name: Push generated tag
+        run: |
+          cd java_app
+          git push --tags
