@@ -16,10 +16,16 @@ jobs:
       - name: Build compile project
         run: cd tutotial-helm; mvn clean install
 
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v4 
+        with:
+          path: tutotial-helm/java_app
+          fetch-depth: '0'
+
       - name: get latest tags
         id: get_tag
         run: |
-          cd tutotial-helm
+          cd tutotial-helm/java_app
           git fetch --tags
           latest_tag=$(git describe --tags --abbrev=0 main || echo "v0.0.0.")
           echo "current_tag=$latest_tag" >> $GITHUB_OUTPUT
